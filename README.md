@@ -258,7 +258,14 @@ Available targets:
   data:
   enable-windows-ipam: "true"
   ```
-  * It's advisable to taint your windows nodes
+  * It's advisable to taint your Windows nodes
+  ```yaml
+  kubernetes_taints = [{
+    key    = "WINDOWS"
+    value  = "true"
+    effect = "NO_SCHEDULE"
+  }]
+  ```
   * Any pods that target windows will need to have the have the following attributes set in their manifest
   ```yaml
     nodeSelector:
@@ -280,8 +287,8 @@ https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.48.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.4.3 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.56 |
+| <a name="provider_random"></a> [random](#provider\_random) | >= 2.0 |
 
 ## Modules
 
