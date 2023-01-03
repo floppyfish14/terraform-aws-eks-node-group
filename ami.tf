@@ -8,7 +8,7 @@ locals {
     "BOTTLEROCKET_x86_64" : "x86_64",
     "BOTTLEROCKET_ARM_64" : "aarch64"
     "BOTTLEROCKET_ARM_64_NVIDIA" : "-gpu"
-    "BOTTLEROCKET_x86_64_NVIDIA " : "-gpu"
+    "BOTTLEROCKET_x86_64_NVIDIA" : "-gpu"
     "WINDOWS_CORE_2019_x86_64" : ""
     "WINDOWS_FULL_2019_x86_64" : ""
     "WINDOWS_CORE_2022_x86_64" : ""

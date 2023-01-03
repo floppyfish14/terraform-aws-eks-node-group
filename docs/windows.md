@@ -14,7 +14,14 @@
   data:
   enable-windows-ipam: "true"
   ```
-  * It's advisable to taint your windows nodes
+  * It's advisable to taint your Windows nodes
+  ```yaml
+  kubernetes_taints = [{
+    key    = "WINDOWS"
+    value  = "true"
+    effect = "NO_SCHEDULE"
+  }]
+  ```
   * Any pods that target windows will need to have the have the following attributes set in their manifest
   ```yaml
     nodeSelector:
