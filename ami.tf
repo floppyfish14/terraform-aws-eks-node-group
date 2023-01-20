@@ -6,12 +6,12 @@ locals {
     "AL2_x86_64_GPU" : "-gpu",
     "AL2_ARM_64" : "-arm64",
     "BOTTLEROCKET_x86_64" : "x86_64",
-    "BOTTLEROCKET_ARM_64" : "aarch64"
-    "BOTTLEROCKET_ARM_64_NVIDIA" : "-gpu"
-    "BOTTLEROCKET_x86_64_NVIDIA" : "-gpu"
-    "WINDOWS_CORE_2019_x86_64" : ""
-    "WINDOWS_FULL_2019_x86_64" : ""
-    "WINDOWS_CORE_2022_x86_64" : ""
+    "BOTTLEROCKET_ARM_64" : "aarch64",
+    "BOTTLEROCKET_ARM_64_NVIDIA" : "-gpu",
+    "BOTTLEROCKET_x86_64_NVIDIA" : "-gpu",
+    "WINDOWS_CORE_2019_x86_64" : "",
+    "WINDOWS_FULL_2019_x86_64" : "",
+    "WINDOWS_CORE_2022_x86_64" : "",
     "WINDOWS_FULL_2022_x86_64" : ""
   }
 
@@ -26,10 +26,7 @@ locals {
     "BOTTLEROCKET" : "bottlerocket-aws-k8s-%s-%s-%s"
     # Windows_Server-2019-English-Core-EKS_Optimized-{ami_kubernetes_version}-{ami_version}
     # e.g. Windows_Server-2019-English-Core-EKS_Optimized-1.23-2022.11.08
-    "WINDOWS_CORE_2019" : "Windows_Server-2019-English-Core-EKS_Optimized-%s-%s"
-    "WINDOWS_FULL_2019" : "Windows_Server-2019-English-Full-EKS_Optimized-%s-%s"
-    "WINDOWS_CORE_2022" : "Windows_Server-2022-English-Core-EKS_Optimized-%s-%s"
-    "WINDOWS_FULL_2022" : "Windows_Server-2022-English-Full-EKS_Optimized-%s-%s"
+    "WINDOWS" : "Windows_Server-%s-English-%s-EKS_Optimized-%s-%s"
   }
 
   # Kubernetes version priority (first one to be set wins)
@@ -55,19 +52,13 @@ locals {
     #   prefex the ami release version with the letter v
     # if not, use an asterisk
     "BOTTLEROCKET" : (length(var.ami_release_version) == 1 ? format("v%s", var.ami_release_version[0]) : "*"),
-    "WINDOWS_CORE_2019" : (length(var.ami_release_version) == 1 ? format("%s", var.ami_release_version[0]) : "*"),
-    "WINDOWS_FULL_2019" : (length(var.ami_release_version) == 1 ? format("%s", var.ami_release_version[0]) : "*"),
-    "WINDOWS_CORE_2022" : (length(var.ami_release_version) == 1 ? format("%s", var.ami_release_version[0]) : "*"),
-    "WINDOWS_FULL_2022" : (length(var.ami_release_version) == 1 ? format("%s", var.ami_release_version[0]) : "*"),
+    "WINDOWS" : (length(var.ami_release_version) == 1 ? format("%s", var.ami_release_version[0]) : "*")
   } : {}
 
   ami_regex = local.need_ami_id ? {
     "AL2" : format(local.ami_format["AL2"], local.arch_label_map[var.ami_type], local.ami_version_regex[local.ami_kind]),
     "BOTTLEROCKET" : format(local.ami_format["BOTTLEROCKET"], local.ami_kubernetes_version, local.arch_label_map[var.ami_type], local.ami_version_regex[local.ami_kind]),
-    "WINDOWS_CORE_2019" : format(local.ami_format["WINDOWS_CORE_2019"], local.ami_kubernetes_version, local.ami_version_regex[local.ami_kind]),
-    "WINDOWS_FULL_2019" : format(local.ami_format["WINDOWS_FULL_2019"], local.ami_kubernetes_version, local.ami_version_regex[local.ami_kind]),
-    "WINDOWS_CORE_2022" : format(local.ami_format["WINDOWS_CORE_2022"], local.ami_kubernetes_version, local.ami_version_regex[local.ami_kind]),
-    "WINDOWS_FULL_2022" : format(local.ami_format["WINDOWS_FULL_2022"], local.ami_kubernetes_version, local.ami_version_regex[local.ami_kind]),
+    "WINDOWS" : format(local.ami_format["WINDOWS"], split("_", var.ami_type)[1], split("_", var.ami_type)[2], local.ami_kubernetes_version, local.ami_version_regex[local.ami_kind])
   } : {}
 }
 
