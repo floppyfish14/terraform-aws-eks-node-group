@@ -16,6 +16,8 @@ locals {
   }
 
   ami_kind = split("_", var.ami_type)[0]
+  windows_year = split("_", var.ami_type)[2]
+  windows_type = lower(split("_", var.ami_type)[1])
 
   ami_format = {
     # amazon-eks{arch_label}-node-{ami_kubernetes_version}-v{ami_version}
@@ -58,7 +60,7 @@ locals {
   ami_regex = local.need_ami_id ? {
     "AL2" : format(local.ami_format["AL2"], local.arch_label_map[var.ami_type], local.ami_version_regex[local.ami_kind]),
     "BOTTLEROCKET" : format(local.ami_format["BOTTLEROCKET"], local.ami_kubernetes_version, local.arch_label_map[var.ami_type], local.ami_version_regex[local.ami_kind]),
-    "WINDOWS" : format(local.ami_format["WINDOWS"], split("_", var.ami_type)[2], split("_", var.ami_type)[1], local.ami_kubernetes_version, local.ami_version_regex[local.ami_kind])
+    "WINDOWS" : format(local.ami_format["WINDOWS"], local.windows_year, title(local.windows_type), local.ami_kubernetes_version, local.ami_version_regex[local.ami_kind])
   } : {}
 }
 
